@@ -7,7 +7,7 @@ export default function GlobalLayout({children} : {children: ReactNode}) {
         <div className="container">
             <header className={style.header}>
                 <Link href={"/"}>
-                    ONEBITE_CINEMA
+                    <h1>ONEBITE_CINEMA</h1>
                 </Link>
             </header>
         {/*children 요소 받기*/}

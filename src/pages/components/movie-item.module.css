@@ -1,0 +1,17 @@
+.movieItem {
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: transform 0.2s;
+}
+
+.movieItem:hover {
+    transform: scale(1.03);
+}
+
+.posterImage {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 8px;
+}
