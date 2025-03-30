@@ -1,40 +1,30 @@
-import {useRouter} from "next/router";
 import {ReactNode} from "react";
 import SearchableLayout from "@/pages/components/searchable-layout";
-import {MovieData} from "@/pages/types";
-import movies from "../mock/dummy.json"
 import style from "./index.module.css"
-import Link from "next/link";
-import Image from "next/image";
+import {GetServerSidePropsContext, InferGetServerSidePropsType} from "next";
+import fetchAllMovies from "@/pages/lib/allMovies";
+import MovieItem from "@/pages/components/movie-item";
 
-export default function Page() {
-    const router = useRouter();
-    const {q} = router.query;
+/* GetServerSidePropsContext : 브라우저에서 전달되는 모든 요청 정보를 포함하는 리액트 객체 */
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+    const q = context.query.q;
+    const filteredMovies = await fetchAllMovies(q as string);
 
-    let filteredMovies: MovieData[] = [];
-    if (typeof q === "string") {
-        filteredMovies = movies.filter((movie) => movie.title.includes(q))
+    return {
+        props: {
+            filteredMovies,
+        }
     }
+}
 
-    return <div className={style.container}>
-        <h3>{`'${q}' 검색 결과`}</h3>
-        {filteredMovies.length > 0 ? (
-            <div className={style.searchResults}>
-                {filteredMovies.map((movie) => (
-                    <Link href={`/movie/${movie.id}`} key={movie.id} className={style.movieItem}>
-                        <Image
-                            src={movie.posterImgUrl}
-                            alt={movie.title}
-                            width={300}
-                            height={500}
-                            className={style.posterImage}
-                        />
-                    </Link>
-                ))}
-            </div>
-        ) : (
-            <h1>404 movies are found</h1>
-        )}
+
+export default function Page({filteredMovies}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+    return <div className={`${style.container} ${style.searchResults}`}>
+        {
+            filteredMovies.map((movie) => (
+                <MovieItem key={movie.id} {...movie} />
+            ))
+        }
     </div>;
 }
 
