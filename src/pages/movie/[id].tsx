@@ -1,5 +1,5 @@
 import {useRouter} from "next/router";
-import movies from "../mock/dummy.json"
+import movies from "@/mock/dummy.json"
 import style from "./[id].module.css"
 import Image from "next/image";
 
