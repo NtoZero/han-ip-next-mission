@@ -1,10 +1,9 @@
 import {ReactNode} from "react";
 import SearchableLayout from "@/pages/components/searchable-layout";
 import style from "./index.module.css";
-import mockMovies from "./mock/dummy.json";
 import MovieItem from "@/pages/components/movie-item";
-import fetchAllMovies from "@/pages/lib/allMovies";
-import fetchRandomMovies from "@/pages/lib/recoMovies";
+import fetchAllMovies from "@/lib/allMovies";
+import fetchRandomMovies from "@/lib/recoMovies";
 import {InferGetServerSidePropsType} from "next";
 
 /* 컴포넌트보다 먼저 실행되어서, 컴포넌트에 필요한 데이터 불러오는 함수 */

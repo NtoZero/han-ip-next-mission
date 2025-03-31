@@ -1,4 +1,4 @@
-export interface MovieData {
+export default interface MovieData {
     id: number;
     title: string;
     subTitle: string;

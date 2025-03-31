@@ -1,4 +1,4 @@
-import {MovieData} from "@/pages/types";
+import MovieData from "@/types/movie";
 
 export default async function fetchRandomMovies() : Promise<MovieData[]> {
     const host = process.env.NEXT_PUBLIC_API_HOST|| "";

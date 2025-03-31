@@ -2,7 +2,7 @@ import {ReactNode} from "react";
 import SearchableLayout from "@/pages/components/searchable-layout";
 import style from "./index.module.css"
 import {GetServerSidePropsContext, InferGetServerSidePropsType} from "next";
-import fetchAllMovies from "@/pages/lib/allMovies";
+import fetchAllMovies from "@/lib/allMovies";
 import MovieItem from "@/pages/components/movie-item";
 
 /* GetServerSidePropsContext : 브라우저에서 전달되는 모든 요청 정보를 포함하는 리액트 객체 */
