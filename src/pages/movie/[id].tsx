@@ -1,18 +1,46 @@
+// pages/movie/[id].tsx
 import {useRouter} from "next/router";
-import movies from "@/mock/dummy.json"
-import style from "./[id].module.css"
+import style from "./[id].module.css";
 import Image from "next/image";
+import {GetStaticPropsContext, InferGetStaticPropsType} from "next";
+import fetchOneMovie from "@/lib/oneMovie";
 
-export default function Page() {
-    const router = useRouter();
-    console.log(router);
+// 정적 경로 지정
+export const getStaticPaths = () => {
+    return {
+        paths: [
+            { params: { id: "831815" } },
+            { params: { id: "919207" } },
+            { params: { id: "533535" } },
+        ],
+        fallback: true, // ISR
+    };
+};
 
-    const {id} = router.query;
-    console.log(id);
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+    const idParam = context.params?.id;
+    const id = Array.isArray(idParam) ? idParam[0] : idParam;
 
-    const movie = movies.find((movie) => Number(id) === movie.id)
+    const movie = await fetchOneMovie(id);
+
     if (!movie) {
-        return <div>Movie not found (404movies)</div>;
+        return { notFound: true };
+    }
+
+    return {
+        props: { movie },
+        revalidate: 60,
+    };
+};
+
+type PageProps = InferGetStaticPropsType<typeof getStaticProps>;
+
+export default function Page({ movie }: PageProps) {
+    const router = useRouter();
+
+    // fallback 상태일 때 로딩 처리
+    if (router.isFallback) {
+        return <p>로딩 중...</p>;
     }
 
     return (
@@ -24,7 +52,7 @@ export default function Page() {
                 }}
             >
                 <Image
-                    src={movie?.posterImgUrl}
+                    src={movie.posterImgUrl}
                     width={300}
                     height={500}
                     alt={movie.title}

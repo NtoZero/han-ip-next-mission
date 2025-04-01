@@ -4,10 +4,10 @@ import style from "./index.module.css";
 import MovieItem from "@/components/movie-item";
 import fetchAllMovies from "@/lib/allMovies";
 import fetchRandomMovies from "@/lib/recoMovies";
-import {InferGetServerSidePropsType} from "next";
+import {InferGetStaticPropsType} from "next";
 
 /* 컴포넌트보다 먼저 실행되어서, 컴포넌트에 필요한 데이터 불러오는 함수 */
-export const getServerSideProps = async() => {
+export const getStaticProps = async() => {
     const [allMovies, recoMovies] = await Promise.all([fetchAllMovies(), fetchRandomMovies()]);
     return {
         props: {
@@ -17,7 +17,7 @@ export const getServerSideProps = async() => {
     }
 }
 
-export default function Home({allMovies, recoMovies}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function Home({allMovies, recoMovies}: InferGetStaticPropsType<typeof getStaticProps>) {
     return (
         <div className={style.container}>
             <section>

@@ -1,30 +1,32 @@
-import {ReactNode} from "react";
+import {ReactNode, useEffect, useState} from "react";
 import SearchableLayout from "@/components/searchable-layout";
 import style from "./index.module.css"
-import {GetServerSidePropsContext, InferGetServerSidePropsType} from "next";
 import fetchAllMovies from "@/lib/allMovies";
 import MovieItem from "@/components/movie-item";
+import MovieData from "@/types/movie";
+import {useRouter} from "next/router";
 
-/* GetServerSidePropsContext : 브라우저에서 전달되는 모든 요청 정보를 포함하는 리액트 객체 */
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-    const q = context.query.q;
-    const filteredMovies = await fetchAllMovies(q as string);
 
-    return {
-        props: {
-            filteredMovies,
-        }
+export default function Page() {
+    const [movies, setMovies] = useState<MovieData[]>([]);
+    const router = useRouter();
+    const q = router.query.q;
+
+    const fetchSearchResult = async () => {
+        const data = await fetchAllMovies();
+        setMovies(data);
     }
-}
 
-
-export default function Page({filteredMovies}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-    return <div className={`${style.container} ${style.searchResults}`}>
-        {
-            filteredMovies.map((movie) => (
-                <MovieItem key={movie.id} {...movie} />
-            ))
+    useEffect(() => {
+        if(q) {
+            fetchSearchResult()
         }
+    }, [q]);
+
+    return <div className={`${style.container} ${style.searchResults}`}>
+        {movies.map((movie) => (
+            <MovieItem key={movie.id} {...movie} />
+        ))}
     </div>;
 }
 
