@@ -9,7 +9,6 @@ export default function Search() {
   return (
     <div>
       <div>Search : {query}</div>
-      <div>서치 페이지 (~/search?q={query})</div>
     </div>
   )
 }
