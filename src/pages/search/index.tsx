@@ -13,14 +13,16 @@ export default function Page() {
     const router = useRouter();
     const q = router.query.q;
 
-    const fetchSearchResult = async () => {
-        const data = await fetchAllMovies();
+    const fetchSearchResult = async (q : string) => {
+        const data = await fetchAllMovies(q);
         setMovies(data);
     }
 
     useEffect(() => {
         if(q) {
-            fetchSearchResult()
+            // q가 배열이면 첫 번째 요소를, 문자열이면 그대로 사용
+            const queryParam = Array.isArray(q) ? q[0] : q;
+            fetchSearchResult(queryParam);
         }
     }, [q]);
 
