@@ -1,14 +1,13 @@
 'use client'
 
-import { useSearchParams } from 'next/navigation'
+import { useSearch } from '../../context/SearchContext'
 
 export default function Search() {
-  const searchParams = useSearchParams()
-  const query = searchParams.get('q') || '이정환'
+  const { searchTerm } = useSearch()
   
   return (
     <div>
-      <div>Search : {query}</div>
+      <div>Search : {searchTerm}</div>
     </div>
   )
 }

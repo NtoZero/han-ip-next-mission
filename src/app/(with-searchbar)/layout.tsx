@@ -1,12 +1,19 @@
+'use client'
+
+import SearchBar from '@/app/components/SearchBar'
+import { SearchProvider } from '@/app/context/SearchContext'
+
 export default function SearchbarLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <div>
-      <div>Searchbar Layout</div>
-      {children}
-    </div>
+    <SearchProvider>
+      <div>
+        <SearchBar />
+        {children}
+      </div>
+    </SearchProvider>
   )
 }
